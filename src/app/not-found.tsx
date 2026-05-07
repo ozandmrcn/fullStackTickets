@@ -7,6 +7,13 @@
 
 import Link from "next/link";
 
+/**
+ * NEXT.JS DYNAMIC RENDERING CONFIGURATION
+ * The custom 404 page is marked as dynamic because the global RootLayout
+ * (specifically the Header component) fetches live database statistics.
+ * This prevents build errors where a static 404 page tries to include 
+ * dynamic data-fetching components.
+ */
 export const dynamic = "force-dynamic";
 
 export default function NotFound() {

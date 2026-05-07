@@ -13,9 +13,16 @@
 
 import Form from "@/components/form";
 import { Ticket } from "@/types";
-import { getTicket } from "@/utils/service";
+import { fetchTicketById } from "@/utils/db-logic";
 import { FC } from "react";
 
+/**
+ * NEXT.JS DYNAMIC RENDERING CONFIGURATION
+ * This page handles both adding new tickets and editing existing ones.
+ * Since it relies on fresh database state and dynamic URL parameters, 
+ * we force dynamic rendering to ensure the form always has the most 
+ * up-to-date ticket data when in edit mode.
+ */
 export const dynamic = "force-dynamic";
 
 /**
@@ -50,8 +57,8 @@ const Page: FC<Props> = async ({ params }) => {
   let editItem: Ticket | null = null;
 
   if (isEditMode) {
-    // Fetch the existing ticket so the form can be pre-filled with current values.
-    editItem = (await getTicket(mode)).ticket;
+    // Fetch the existing ticket directly from the database.
+    editItem = await fetchTicketById(mode);
   }
 
   return (

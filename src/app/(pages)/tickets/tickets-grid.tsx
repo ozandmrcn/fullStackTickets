@@ -6,8 +6,9 @@
  *              count badge, and a responsive card grid.
  */
 
-import { getTickets } from "@/utils/service";
+import { fetchAllTickets } from "@/utils/db-logic";
 import TicketCard from "@/components/card";
+import { Ticket } from "@/types";
 
 /**
  * TicketsGrid
@@ -20,17 +21,17 @@ import TicketCard from "@/components/card";
  * while the parent page shell is already visible to the user.
  */
 const TicketsGrid = async () => {
-  const { tickets } = await getTickets();
+  const tickets = await fetchAllTickets();
 
   // Derive a sorted, deduplicated list of categories present in the current data.
-  const categories = [...new Set(tickets.map((i) => i.category))].sort();
+  const categories = [...new Set(tickets.map((i: Ticket) => i.category))].sort();
 
   return (
     <div className="space-y-8">
       {categories.map((category, key) => {
         // Filter tickets that belong to the current category section.
         const categoryTickets = tickets.filter(
-          (ticket) => ticket.category === category,
+          (ticket: Ticket) => ticket.category === category,
         );
 
         return (

@@ -11,6 +11,13 @@ import { FC, Suspense } from "react";
 import TicketsGrid from "./tickets-grid";
 import Loading from "./loading";
 
+/**
+ * NEXT.JS DYNAMIC RENDERING CONFIGURATION
+ * The ticket list must be dynamic because tickets are frequently created,
+ * updated, or deleted. By forcing dynamic rendering, we bypass the build-time
+ * static generation and ensure the list is always fetched fresh from MongoDB
+ * for every visitor.
+ */
 export const dynamic = "force-dynamic";
 
 /**

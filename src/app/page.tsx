@@ -8,11 +8,19 @@
 
 import DashboarValue from "@/components/charts/dashboard-value";
 import DoughnutChart from "@/components/charts/doughnut-chart";
-import { getStatistics } from "@/utils/service";
+import { fetchStatistics } from "@/utils/db-logic";
 import { BarChart3, PieChart, TrendingUp } from "lucide-react";
 
 import { FC } from "react";
 
+/**
+ * NEXT.JS DYNAMIC RENDERING CONFIGURATION
+ * We force this page to be dynamic because it fetches live ticket statistics.
+ * Without this, Next.js would try to pre-render the page at build time with
+ * whatever data was in the database at that moment, and it wouldn't update
+ * until the next deployment. 'force-dynamic' ensures users always see 
+ * real-time dashboard metrics.
+ */
 export const dynamic = "force-dynamic";
 
 /**
@@ -23,8 +31,8 @@ export const dynamic = "force-dynamic";
  * for the initial render (the Header's `<Suspense>` boundary handles that).
  */
 const Home: FC = async () => {
-  // Fetch all statistics in a single server-side request before rendering.
-  const data = await getStatistics();
+  // Fetch all statistics directly from the database (no HTTP overhead).
+  const data = await fetchStatistics();
 
   return (
     <div className="p-2 md:p-6 space-y-8">

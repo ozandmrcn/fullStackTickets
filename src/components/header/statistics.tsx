@@ -12,7 +12,7 @@
  *              - Average priority score
  */
 
-import { getStatistics } from "@/utils/service";
+import { fetchStatistics } from "@/utils/db-logic";
 import { FC } from "react";
 
 /**
@@ -23,9 +23,9 @@ import { FC } from "react";
  * differentiate the metric type at a glance.
  */
 const Statistics: FC = async () => {
-  // Destructure only the values needed for the header bar to minimise data usage.
+  // Destructure only the values needed for the header bar directly from the DB.
   const { totalTickets, ticketsByStatus, averagePriority } =
-    await getStatistics();
+    await fetchStatistics();
 
   return (
     <div className="py-4 grid grid-cols-2 md:grid-cols-4 gap-4 px-6 bg-zinc-900 border-b border-zinc-800">
