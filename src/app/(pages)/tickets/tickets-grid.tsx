@@ -6,7 +6,7 @@
  *              count badge, and a responsive card grid.
  */
 
-import { fetchAllTickets } from "@/utils/db-logic";
+import { getTicketsFromDB } from "@/utils/db";
 import TicketCard from "@/components/card";
 import { Ticket } from "@/types";
 
@@ -21,7 +21,7 @@ import { Ticket } from "@/types";
  * while the parent page shell is already visible to the user.
  */
 const TicketsGrid = async () => {
-  const tickets = await fetchAllTickets();
+  const tickets = await getTicketsFromDB();
 
   // Derive a sorted, deduplicated list of categories present in the current data.
   const categories = [...new Set(tickets.map((i: Ticket) => i.category))].sort();
@@ -52,7 +52,7 @@ const TicketsGrid = async () => {
 
             {/* Responsive card grid — 1 column on mobile, 2 on md+ */}
             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-">
-              {categoryTickets.map((ticket) => (
+              {categoryTickets.map((ticket: Ticket) => (
                 <TicketCard ticket={ticket} key={ticket.id} />
               ))}
             </div>

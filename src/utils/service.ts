@@ -22,6 +22,12 @@ import {
  * Falls back to localhost in development.
  */
 const getAppUrl = () => {
+  // In the browser, we should use relative URLs (e.g., /api/tickets) 
+  // to ensure requests always go to the current domain.
+  if (typeof window !== "undefined") {
+    return "";
+  }
+
   const publicUrl = process.env.NEXT_PUBLIC_APP_URL;
   const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
 

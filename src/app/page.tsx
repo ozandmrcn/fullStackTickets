@@ -8,7 +8,7 @@
 
 import DashboarValue from "@/components/charts/dashboard-value";
 import DoughnutChart from "@/components/charts/doughnut-chart";
-import { fetchStatistics } from "@/utils/db-logic";
+import { getStatsFromDB } from "@/utils/db";
 import { BarChart3, PieChart, TrendingUp } from "lucide-react";
 
 import { FC } from "react";
@@ -32,7 +32,7 @@ export const dynamic = "force-dynamic";
  */
 const Home: FC = async () => {
   // Fetch all statistics directly from the database (no HTTP overhead).
-  const data = await fetchStatistics();
+  const data = await getStatsFromDB();
 
   return (
     <div className="p-2 md:p-6 space-y-8">

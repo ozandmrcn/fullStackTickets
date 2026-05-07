@@ -5,25 +5,18 @@
  *              to display charts, counters, and trend indicators.
  */
 
-import { fetchStatistics } from "@/utils/db-logic";
+import { getStatsFromDB } from "@/utils/db";
 import { NextResponse as Res } from "next/server";
 
 /**
  * GET /api/statistics
  *
- * Fetches all tickets from the database and computes the following metrics:
- * - Total ticket count
- * - Breakdown by category and by status
- * - Completion rate (percentage of resolved tickets)
- * - Number of critical tickets (priority >= 4)
- * - Tickets created today, this week, this month, and this year
- * - Average priority across all tickets
- *
- * @returns {NextResponse} 200 with the statistics object, or 500 on error.
+ * Provides a snapshot of ticket distributions and key performance indicators (KPIs)
+ * to display charts, counters, and trend indicators.
  */
 export async function GET(request: Request) {
   try {
-    const stats = await fetchStatistics();
+    const stats = await getStatsFromDB();
     return Res.json(stats, { status: 200 });
   } catch (error) {
     // Return a descriptive error message so the client can surface it.

@@ -6,7 +6,7 @@
  *              - PUT    → update an existing ticket by ID.
  */
 
-import { fetchTicketById } from "@/utils/db-logic";
+import { getTicketByIdFromDB } from "@/utils/db";
 import connectMongo from "@/utils/connect-mongo";
 import { NextResponse as Res } from "next/server";
 import Ticket from "../../models/ticket";
@@ -34,7 +34,7 @@ export async function GET(req: Request, { params }: { params: Promise<Params> })
     const { id } = await params;
 
     // Look up the ticket directly from the database logic.
-    const ticket = await fetchTicketById(id);
+    const ticket = await getTicketByIdFromDB(id);
 
     // Return a clear 404 when the document does not exist.
     if (!ticket) {

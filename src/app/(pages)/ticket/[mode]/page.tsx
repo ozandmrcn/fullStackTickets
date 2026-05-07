@@ -13,7 +13,7 @@
 
 import Form from "@/components/form";
 import { Ticket } from "@/types";
-import { fetchTicketById } from "@/utils/db-logic";
+import { getTicketByIdFromDB } from "@/utils/db";
 import { FC } from "react";
 
 /**
@@ -58,7 +58,7 @@ const Page: FC<Props> = async ({ params }) => {
 
   if (isEditMode) {
     // Fetch the existing ticket directly from the database.
-    editItem = await fetchTicketById(mode);
+    editItem = await getTicketByIdFromDB(mode);
   }
 
   return (

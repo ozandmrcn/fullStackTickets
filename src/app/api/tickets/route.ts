@@ -5,7 +5,7 @@
  *              - POST → creates a new ticket from the request body.
  */
 
-import { fetchAllTickets } from "@/utils/db-logic";
+import { getTicketsFromDB } from "@/utils/db";
 import Ticket from "@/app/api/models/ticket";
 import connectMongo from "@/utils/connect-mongo";
 import { NextResponse as Res } from "next/server";
@@ -20,7 +20,7 @@ import { NextResponse as Res } from "next/server";
  */
 export async function GET() {
   try {
-    const tickets = await fetchAllTickets();
+    const tickets = await getTicketsFromDB();
 
     return Res.json(
       {

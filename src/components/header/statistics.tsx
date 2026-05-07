@@ -12,7 +12,7 @@
  *              - Average priority score
  */
 
-import { fetchStatistics } from "@/utils/db-logic";
+import { getStatsFromDB } from "@/utils/db";
 import { FC } from "react";
 
 /**
@@ -25,7 +25,7 @@ import { FC } from "react";
 const Statistics: FC = async () => {
   // Destructure only the values needed for the header bar directly from the DB.
   const { totalTickets, ticketsByStatus, averagePriority } =
-    await fetchStatistics();
+    await getStatsFromDB();
 
   return (
     <div className="py-4 grid grid-cols-2 md:grid-cols-4 gap-4 px-6 bg-zinc-900 border-b border-zinc-800">
