@@ -22,8 +22,19 @@ import {
  * Falls back to localhost in development.
  */
 const getAppUrl = () => {
-  if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  const publicUrl = process.env.NEXT_PUBLIC_APP_URL;
+  const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+
+  // If we are in production and the URL is localhost, it's definitely wrong.
+  // We should fallback to VERCEL_URL or the actual production domain.
+  if (publicUrl && !(isProduction && publicUrl.includes("localhost"))) {
+    return publicUrl;
+  }
+
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
   return "http://localhost:3000";
 };
 

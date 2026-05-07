@@ -76,11 +76,13 @@ Create a `.env` file in the root directory and fill in the following values with
 # MongoDB Connection String
 MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/<db_name>
 
-# App API URL (For local development and client-side fetches)
+# App API URL (Required for local development; optional on Vercel)
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-> ⚠️ **Note:** To ensure the system works correctly, you need a valid MongoDB connection string and correctly configured environment variables.
+> ⚠️ **Note:** To ensure the system works correctly, you need a valid MongoDB connection string.
+> 
+> 💡 **Deployment Tip:** When deploying to **Vercel**, you can leave `NEXT_PUBLIC_APP_URL` blank. The application is configured to automatically detect and use the Vercel deployment URL if this variable is not provided.
 
 ## 📧 Contact
 
