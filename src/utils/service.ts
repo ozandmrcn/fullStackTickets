@@ -18,10 +18,16 @@ import {
 
 /**
  * Base URL of the application.
- * Falls back to `http://localhost:3000` when `NEXT_PUBLIC_APP_URL` is not set.
- * Prefixing the variable with `NEXT_PUBLIC_` makes it available in the browser bundle.
+ * In production (Vercel), we prioritize NEXT_PUBLIC_APP_URL or VERCEL_URL.
+ * Falls back to localhost in development.
  */
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const getAppUrl = () => {
+  if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return "http://localhost:3000";
+};
+
+const APP_URL = getAppUrl();
 
 /**
  * Resolves after the given number of milliseconds.
@@ -42,11 +48,22 @@ export const wait = async (ms: number = 1500) => {
  * @returns {StatisticsReponse} Parsed statistics object.
  */
 export const getStatistics = async (): StatisticsReponse => {
-  const res = await fetch(`${APP_URL}/api/statistics`, {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${APP_URL}/api/statistics`, {
+      cache: "no-store",
+    });
 
-  return res.json();
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error(`Error fetching statistics: ${res.status} ${res.statusText} - ${errorText}`);
+      throw new Error(`Failed to fetch statistics: ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Fetch statistics failed:", error);
+    throw error;
+  }
 };
 
 /**
@@ -56,11 +73,22 @@ export const getStatistics = async (): StatisticsReponse => {
  * @returns {TicketsResponse} Object containing the tickets array and a message.
  */
 export const getTickets = async (): TicketsResponse => {
-  const res = await fetch(`${APP_URL}/api/tickets`, {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch(`${APP_URL}/api/tickets`, {
+      cache: "no-store",
+    });
 
-  return res.json();
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error(`Error fetching tickets: ${res.status} ${res.statusText} - ${errorText}`);
+      throw new Error(`Failed to fetch tickets: ${res.status}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Fetch tickets failed:", error);
+    throw error;
+  }
 };
 
 /**
