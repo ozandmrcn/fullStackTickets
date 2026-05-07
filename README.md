@@ -43,12 +43,7 @@ fullStackTickets enables users to:
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Desktop%20Computer.png" alt="Desktop Computer" width="25" height="25" /> Demo
 
 You can view a demo of the project by visiting the following link:  
-[Full Stack Tickets DEMO](full-stack-tickets.vercel.app)
-
-## Preview
-
-<!-- <a href=""><img src="" alt="Preview 1" border="0" /></a> -->
-<!-- <a href=""><img src="" alt="Preview 2" border="0" /></a> -->
+[Full Stack Tickets DEMO](https://full-stack-tickets.vercel.app/)
 
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Wrench.png" alt="Wrench" width="25" height="25" /> Installation
 
