@@ -13,6 +13,8 @@ import { BarChart3, PieChart, TrendingUp } from "lucide-react";
 
 import { FC } from "react";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Home (Dashboard) page component.
  *

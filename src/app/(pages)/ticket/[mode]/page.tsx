@@ -16,6 +16,8 @@ import { Ticket } from "@/types";
 import { getTicket } from "@/utils/service";
 import { FC } from "react";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Page component props.
  * `params` is a Promise in Next.js 15+ because route params are resolved

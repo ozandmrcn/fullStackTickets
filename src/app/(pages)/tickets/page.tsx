@@ -11,6 +11,8 @@ import { FC, Suspense } from "react";
 import TicketsGrid from "./tickets-grid";
 import Loading from "./loading";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Tickets List Page.
  *
