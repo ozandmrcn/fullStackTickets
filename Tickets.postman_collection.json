@@ -1,0 +1,270 @@
+{
+  "info": {
+    "_postman_id": "a8ca1f73-26d7-42b0-b3c4-94f2429cc556",
+    "name": "Rudder - Ticket Management API",
+    "description": "## 🎫 Rudder API Collection\r\n\r\nThis collection provides a comprehensive set of endpoints to interact with the **Rudder Ticket Management System**. It covers everything from basic CRUD operations to advanced dashboard analytics.\r\n\r\n### 🚀 Getting Started\r\n1. Ensure your local server is running at `http://localhost:3000` (or update the `BASE_URL` variable).\r\n2. Use the **Tickets** folder for core data operations.\r\n3. Use the **Statistics** folder to fetch analytical data for dashboards.\r\n\r\n### 🛠️ Key Features\r\n- **Full CRUD Support:** Create, Read, Update, and Delete tickets.\r\n- **Automated Tests:** Status code and schema validation scripts included.\r\n- **Variable Management:** Uses collection-level variables for easy environment switching.\r\n- **Rich Documentation:** Detailed field descriptions and example responses.\r\n\r\n### 👨‍💻 Developer\r\nDeveloped and maintained by **Ozan Demircan**.\r\nCheck out more projects on GitHub: [github.com/ozandmrcn](https://github.com/ozandmrcn)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40788805"
+  },
+  "item": [
+    {
+      "name": "Tickets",
+      "description": "Handles all core ticket operations. Each ticket document contains:\r\n- `title`: Short summary (String)\r\n- `description`: Detailed issue info (String)\r\n- `category`: [Software, Hardware, Connection, Other]\r\n- `priority`: 1 (Very Low) to 5 (Critical)\r\n- `progress`: 0-100 percentage\r\n- `status`: [Pending, In Progress, Resolved]",
+      "item": [
+        {
+          "name": "Get All Tickets",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has success flag\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "Fetches the list of all tickets available in the system. Perfect for populating grid views or lists.",
+            "url": {
+              "raw": "{{BASE_URL}}/api/tickets",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Ticket Created Successfully\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "if (jsonData.newTicket && jsonData.newTicket.id) {",
+                  "    pm.collectionVariables.set(\"LAST_TICKET_ID\", jsonData.newTicket.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Network Connectivity Issue\",\n    \"description\": \"Unable to connect to the internal VPN since morning update.\",\n    \"category\": \"Connection Issue\",\n    \"priority\": 4,\n    \"progress\": 0,\n    \"status\": \"Pending\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Registers a new ticket in the database. \r\n\r\n**Validation Rules:**\r\n- `title`: Required\r\n- `priority`: Must be 1-5\r\n- `progress`: Must be 0-100",
+            "url": {
+              "raw": "{{BASE_URL}}/api/tickets",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "Retrieves detailed information about a specific ticket using its unique ID.",
+            "url": {
+              "raw": "{{BASE_URL}}/api/tickets/{{LAST_TICKET_ID}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{LAST_TICKET_ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Update Successful\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Fixed: Network Connectivity Issue\",\n    \"description\": \"VPN access has been restored after resetting the cache.\",\n    \"priority\": 2,\n    \"progress\": 100,\n    \"status\": \"Resolved\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Modifies an existing ticket. You can perform partial updates by sending only the fields that changed.",
+            "url": {
+              "raw": "{{BASE_URL}}/api/tickets/{{LAST_TICKET_ID}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{LAST_TICKET_ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Ticket",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Deletion Successful\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "description": "Permanently deletes the ticket record from the system.",
+            "url": {
+              "raw": "{{BASE_URL}}/api/tickets/{{LAST_TICKET_ID}}",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "{{LAST_TICKET_ID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Statistics",
+      "description": "Analytical endpoints for fetching system-wide aggregated data.",
+      "item": [
+        {
+          "name": "Get Dashboard Statistics",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Stats Loaded\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Contains key metrics\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('totalTickets');",
+                  "    pm.expect(jsonData).to.have.property('completionRate');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "description": "Calculates and returns metrics like total tickets, category breakdown, status distribution, and time-based counts (Today, Weekly, etc.).",
+            "url": {
+              "raw": "{{BASE_URL}}/api/statistics",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "api",
+                "statistics"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "LAST_TICKET_ID",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
