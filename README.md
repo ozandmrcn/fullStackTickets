@@ -33,6 +33,13 @@ fullStackTickets enables users to:
 - **Chart.js** (Data Visualization)
 - **Lucide React** (Icon Sets)
 
+## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Books.png" alt="Books" width="25" height="25" /> Key Concepts
+
+- **Server-Side Rendering (SSR):** Optimized performance using Next.js 15.
+- **API Routes:** Custom endpoints for ticket management.
+- **Responsive Design:** Mobile-first approach with Tailwind CSS v4.
+- **State Management:** Efficient data handling using React 19 hooks.
+
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Desktop%20Computer.png" alt="Desktop Computer" width="25" height="25" /> Demo
 
 You can view a demo of the project by visiting the following link:  
