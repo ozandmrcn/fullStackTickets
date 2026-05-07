@@ -111,7 +111,7 @@ const ticketSchema = new Schema<ITicket>(
        * Removes the internal `_id` field so clients receive the virtual `id` instead.
        */
       transform: function (doc, ret) {
-        delete ret._id;
+        delete (ret as any)._id;
         return ret;
       },
     },

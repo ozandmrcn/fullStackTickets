@@ -24,16 +24,19 @@ type Params = {
  * Finds and returns a single ticket document by its MongoDB ObjectId.
  *
  * @param {Request} req      - Incoming Next.js request (unused but required by the signature).
- * @param {{ params: Params }} context - Route params containing the ticket `id`.
+ * @param {{ params: Promise<Params> }} context - Route params containing the ticket `id`.
  * @returns {NextResponse} 200 with the ticket, 404 if not found, or 500 on error.
  */
-export async function GET(req: Request, { params }: { params: Params }) {
+export async function GET(req: Request, { params }: { params: Promise<Params> }) {
   try {
+    // Await the params Promise before reading the dynamic segment.
+    const { id } = await params;
+
     // Ensure a live MongoDB connection before querying.
     await connectMongo();
 
     // Look up the ticket by its primary key.
-    const ticket = await Ticket.findById(params.id);
+    const ticket = await Ticket.findById(id);
 
     // Return a clear 404 when the document does not exist.
     if (!ticket) {
@@ -70,16 +73,19 @@ export async function GET(req: Request, { params }: { params: Params }) {
  * Returns the deleted document so the caller can confirm what was removed.
  *
  * @param {Request} req      - Incoming Next.js request (unused but required by the signature).
- * @param {{ params: Params }} context - Route params containing the ticket `id`.
+ * @param {{ params: Promise<Params> }} context - Route params containing the ticket `id`.
  * @returns {NextResponse} 200 with the deleted ticket, 404 if not found, or 500 on error.
  */
-export async function DELETE(req: Request, { params }: { params: Params }) {
+export async function DELETE(req: Request, { params }: { params: Promise<Params> }) {
   try {
+    // Await the params Promise before reading the dynamic segment.
+    const { id } = await params;
+
     // Ensure a live MongoDB connection before writing.
     await connectMongo();
 
     // Attempt to find and delete the document in a single atomic operation.
-    const ticket = await Ticket.findByIdAndDelete(params.id);
+    const ticket = await Ticket.findByIdAndDelete(id);
 
     // If no document was matched, inform the caller with a 404.
     if (!ticket) {
@@ -117,18 +123,21 @@ export async function DELETE(req: Request, { params }: { params: Params }) {
  * The response contains the document state AFTER the update (`new: true`).
  *
  * @param {Request} req      - Incoming Next.js request containing the update payload.
- * @param {{ params: Params }} context - Route params containing the ticket `id`.
+ * @param {{ params: Promise<Params> }} context - Route params containing the ticket `id`.
  * @returns {NextResponse} 200 with the updated ticket, 404 if not found, or 500 on error.
  */
-export async function PUT(req: Request, { params }: { params: Params }) {
+export async function PUT(req: Request, { params }: { params: Promise<Params> }) {
   try {
+    // Await the params Promise before reading the dynamic segment.
+    const { id } = await params;
+
     // Ensure a live MongoDB connection before writing.
     await connectMongo();
 
     // Parse the partial or full update payload from the request body.
     const body = await req.json();
 
-    const ticket = await Ticket.findByIdAndUpdate(params.id, body, {
+    const ticket = await Ticket.findByIdAndUpdate(id, body, {
       new: true,           // Return the document as it looks AFTER the update.
       runValidators: true, // Re-validate updated fields against the schema rules.
     });
